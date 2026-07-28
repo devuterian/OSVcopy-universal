@@ -35,3 +35,4 @@ jobs:
           git add -A
           git commit -m 'migration exception: import OSVcopy Universal snapshot'
           git push
+# Contents API trigger for the initial import.
