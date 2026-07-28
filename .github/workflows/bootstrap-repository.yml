@@ -23,20 +23,24 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          cp .github/workflows/bootstrap-repository.yml /tmp/bootstrap-repository.yml
           cat .bootstrap/part-* | base64 --decode | tar -xz
           mkdir -p Bundle
           curl --fail --location --retry 3 \
             'https://raw.githubusercontent.com/devuterian/OSVcopy/877d8fce81c27022d0def77901eb5b52fa48d87c/Bundle/OSVcopy.icns' \
             --output Bundle/OSVcopy.icns
           test "$(wc -c < Bundle/OSVcopy.icns)" -gt 100000
+          rm -rf .github/workflows
+          mkdir -p .github/workflows
+          cp /tmp/bootstrap-repository.yml .github/workflows/bootstrap-repository.yml
           rm -rf .bootstrap
-          rm -f .github/workflows/bootstrap-repository.yml
-      - name: Commit imported repository
+          rm -f .osvcopy-bootstrap
+      - name: Commit imported source
         shell: bash
         run: |
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -A
-          git commit -m 'migration exception: import OSVcopy Universal snapshot'
+          git commit -m 'migration exception: import OSVcopy Universal source'
           git push origin HEAD:main
