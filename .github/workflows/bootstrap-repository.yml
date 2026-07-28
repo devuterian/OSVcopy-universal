@@ -3,6 +3,9 @@ name: Import OSVcopy Universal snapshot
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
+    types: [opened, reopened, synchronize]
   workflow_dispatch:
 
 permissions:
@@ -14,6 +17,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
       - name: Restore repository snapshot
         shell: bash
         run: |
@@ -34,5 +39,4 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -A
           git commit -m 'migration exception: import OSVcopy Universal snapshot'
-          git push
-# Contents API trigger for the initial import.
+          git push origin HEAD:main
