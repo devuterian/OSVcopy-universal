@@ -1,0 +1,16 @@
+.DS_Store
+Thumbs.db
+.tmp_commit_msg_*
+.build/
+.swiftpm/
+*.xcodeproj/
+xcuserdata/
+dist/
+*.dmg
+*.ipa
+.cursor/debug*.log
+
+# Electron desktop
+desktop/node_modules/
+desktop/release/
+desktop/.cache/

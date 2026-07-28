@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; frame-src 'none'">
+  <title>OSVcopy Universal</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <p class="eyebrow">OSVcopy Universal</p>
+        <h1>촬영 날짜별 미디어 정리</h1>
+        <p class="muted">OSV·INSV·영상·RAW 파일을 선택한 라이브러리로 복사하거나 이동합니다.</p>
+      </div>
+      <span id="statusBadge" class="badge">대기</span>
+    </header>
+
+    <section class="panel source-panel">
+      <div class="section-title"><h2>1. 소스</h2><span id="sourceCount">0개 경로</span></div>
+      <div id="dropZone" class="drop-zone" tabindex="0">파일이나 폴더를 여기에 드롭</div>
+      <div class="actions">
+        <button id="addFiles">파일 추가</button>
+        <button id="addFolders">폴더 추가</button>
+        <button id="clearSources" class="secondary">전체 비우기</button>
+      </div>
+      <ul id="sourceList" class="source-list"></ul>
+    </section>
+
+    <section class="panel">
+      <div class="section-title"><h2>2. 목적지와 규칙</h2></div>
+      <label class="field full"><span>대상 라이브러리</span><div class="inline"><input id="destination" readonly placeholder="폴더를 선택하세요"><button id="chooseDestination">선택</button></div></label>
+      <div class="grid">
+        <label class="field"><span>폴더 구조</span><select id="layout"><option value="yearThenDate">연도 / 날짜</option><option value="flatDate">날짜만</option></select></label>
+        <label class="field"><span>중복 검사</span><select id="duplicateMode"><option value="md5">MD5</option><option value="fileSizeOnly">파일 크기만</option></select></label>
+        <label class="field"><span>처리 방식</span><select id="transferMode"><option value="copy">복사</option><option value="move">이동</option></select></label>
+        <label class="field"><span>ffprobe 경로</span><input id="ffprobePath" placeholder="비워두면 PATH에서 탐색"></label>
+      </div>
+      <div class="checks">
+        <label><input id="dryRun" type="checkbox"> 미리보기만</label>
+        <label><input id="includeHidden" type="checkbox"> 숨김 폴더 포함</label>
+      </div>
+      <details>
+        <summary>확장자 선택</summary>
+        <div id="extensions" class="extensions"></div>
+      </details>
+      <p id="safetyNote" class="warning hidden">파일 크기만 검사는 내용 동일성을 보장하지 않습니다. 이동 모드에서는 삭제 전에 MD5를 추가 확인합니다.</p>
+    </section>
+
+    <section class="panel progress-panel">
+      <div class="section-title"><h2>3. 실행</h2><span id="progressText">준비됨</span></div>
+      <progress id="progress" max="1" value="0"></progress>
+      <p id="currentFile" class="current-file">—</p>
+      <div class="actions">
+        <button id="startJob" class="primary">정리 시작</button>
+        <button id="cancelJob" class="danger" disabled>취소</button>
+      </div>
+      <pre id="log" aria-live="polite"></pre>
+    </section>
+  </main>
+  <script type="module" src="renderer.js"></script>
+</body>
+</html>

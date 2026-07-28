@@ -1,0 +1,51 @@
+{
+  "name": "osvcopy-universal-desktop",
+  "version": "0.1.0",
+  "description": "Cross-platform desktop importer for OSVcopy",
+  "private": true,
+  "repository": "https://github.com/devuterian/osvcopy-universal",
+  "type": "module",
+  "main": "src/main.mjs",
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test tests/*.test.mjs",
+    "lint": "node scripts/check-syntax.mjs",
+    "pack": "electron-builder --dir",
+    "dist:win": "electron-builder --win nsis zip --x64"
+  },
+  "devDependencies": {
+    "electron": "43.2.0",
+    "electron-builder": "26.15.3"
+  },
+  "build": {
+    "appId": "net.marierie.osvcopy.universal",
+    "productName": "OSVcopy Universal",
+    "asar": true,
+    "files": [
+      "src/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        },
+        {
+          "target": "zip",
+          "arch": ["x64"]
+        }
+      ],
+      "artifactName": "OSVcopy-Universal-${version}-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  }
+}
